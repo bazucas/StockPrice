@@ -1,0 +1,22 @@
+services:
+  stockprice.api:
+    image: ${DOCKER_REGISTRY-}stockpriceapi
+    container_name: StockPrice.Api
+    build:
+      context: .
+      dockerfile: StockPrice.Api/Dockerfile
+    ports:
+      - 5000:8080
+      - 5001:8081
+
+  stocks.postgres:
+    image: postgres:latest
+    container_name: Stocks.Database
+    environment:
+      - POSTGRES_DB=stocks
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    volumes:
+      - ./.containers/db:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
